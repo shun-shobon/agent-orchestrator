@@ -170,7 +170,12 @@ function loadTasks(tasksDir: string): Map<string, Task> {
       throw new Error(`duplicate task id: ${taskId}`);
     }
 
-    const status = readFrontmatterString({ frontmatter, key: "status", path, required: true }).toLowerCase();
+    const status = readFrontmatterString({
+      frontmatter,
+      key: "status",
+      path,
+      required: true,
+    }).toLowerCase();
     if (!ALLOWED_STATUS.has(status)) {
       throw new Error(
         `${path}: invalid status for ${taskId}: ${status} ` +
