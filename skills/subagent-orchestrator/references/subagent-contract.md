@@ -3,14 +3,12 @@
 ## 入力必須項目
 
 - `task_id`
-- `goal`
-- `in_scope`
-- `out_of_scope`
-- `dependencies`
 - `worktree_path`
-- `expected_outputs`
-- `definition_of_done`
-- `required_docs_to_update`
+- `role`（実装担当 / レビュー担当）
+
+補足:
+
+- `goal`、`in_scope`、`out_of_scope`、`dependencies`、`definition_of_done`、`required_docs_to_update` は `orchestration/tasks/<task-id>/task.md` や `orchestration/task-breakdown.md` から取得する。
 
 ## 出力必須項目
 
