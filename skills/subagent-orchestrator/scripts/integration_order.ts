@@ -301,58 +301,6 @@ function findReadyNow(tasks: Map<string, Task>): string[] {
   return ready;
 }
 
-function renderDagMarkdown(
-  tasks: Map<string, Task>,
-  batches: string[][],
-  activeIds: string[],
-): string {
-  const totalCount = tasks.size;
-  const doneCount = Array.from(tasks.values()).filter((task) => task.status === "done").length;
-  const activeSet = new Set(activeIds);
-
-  const lines: string[] = [];
-  lines.push("# Dependency DAG", "", "## Snapshot", "");
-  lines.push(`- Total: ${totalCount}`);
-  lines.push(`- Done: ${doneCount}`);
-  lines.push(`- Active: ${activeIds.length}`);
-  lines.push("", "## Mermaid (Active Tasks Only)", "", "```mermaid", "graph TD");
-
-  if (activeIds.length === 0) {
-    lines.push("  DONE[All tasks are done]");
-  } else {
-    for (const taskId of activeIds) {
-      const task = tasks.get(taskId)!;
-      const activeDeps = task.deps.filter((dep) => activeSet.has(dep));
-      if (activeDeps.length === 0) {
-        lines.push(`  ${taskId}`);
-        continue;
-      }
-      for (const dep of activeDeps) {
-        lines.push(`  ${dep} --> ${taskId}`);
-      }
-    }
-  }
-
-  lines.push("```", "", "## Parallel Batches (Active Tasks)", "");
-  if (batches.length === 0) {
-    lines.push("- none");
-  } else {
-    batches.forEach((batch, idx) => {
-      lines.push(`- B${idx + 1}: ${batch.join(", ")}`);
-    });
-  }
-
-  lines.push("", "## Integration Order (Active Tasks)", "");
-  if (batches.length === 0) {
-    lines.push("none");
-  } else {
-    lines.push(batches.flat().join(", "));
-  }
-
-  lines.push("");
-  return lines.join("\n");
-}
-
 function renderReadyMarkdown(tasks: Map<string, Task>, readyNow: string[]): string {
   const lines: string[] = [];
   lines.push("# Ready Now Tasks", "", "status=todo and all dependencies are done", "");
@@ -381,8 +329,7 @@ function writeText(path: string, content: string): void {
 const command = defineCommand({
   meta: {
     name: "integration_order",
-    description:
-      "Generate dependency-dag.md and ready-now.md from tasks/<task-id>/task.md frontmatter.",
+    description: "Generate ready-now.md from tasks/<task-id>/task.md frontmatter.",
   },
   args: {
     "tasks-dir": {
@@ -390,14 +337,10 @@ const command = defineCommand({
       required: true,
       description: "Directory containing task directories (<task-id>/task.md)",
     },
-    write: {
-      type: "string",
-      description: "Output path for dependency DAG markdown",
-    },
     "ready-write": {
       type: "string",
-      description:
-        "Output path for ready-now markdown (default: sibling ready-now.md when --write is set)",
+      required: true,
+      description: "Output path for ready-now markdown",
     },
   },
   run: ({ args }) => {
@@ -406,12 +349,9 @@ const command = defineCommand({
     }
 
     const tasksDir = readStringOption(args["tasks-dir"], "--tasks-dir", true);
-    const write = readStringOption(args.write, "--write");
-    const readyWrite = readStringOption(args["ready-write"], "--ready-write");
+    const readyWrite = readStringOption(args["ready-write"], "--ready-write", true);
 
     let tasks: Map<string, Task>;
-    let batches: string[][];
-    let activeIds: string[];
 
     try {
       tasks = loadTasks(tasksDir);
@@ -420,30 +360,15 @@ const command = defineCommand({
       if (topo.remaining.length > 0) {
         fail(`[error] dependency cycle detected among: ${topo.remaining.join(", ")}`);
       }
-      batches = topo.batches;
-      activeIds = active;
     } catch (error) {
       fail(`[error] ${error instanceof Error ? error.message : String(error)}`);
     }
 
     const readyNow = findReadyNow(tasks);
-    const dagMarkdown = renderDagMarkdown(tasks, batches, activeIds);
     const readyMarkdown = renderReadyMarkdown(tasks, readyNow);
 
-    if (write) {
-      writeText(write, dagMarkdown);
-      consola.success(`[ok] wrote ${write}`);
-    } else {
-      process.stdout.write(dagMarkdown);
-    }
-
-    const readyOutput = readyWrite || (write ? join(dirname(write), "ready-now.md") : "");
-    if (readyOutput) {
-      writeText(readyOutput, readyMarkdown);
-      consola.success(`[ok] wrote ${readyOutput}`);
-    } else {
-      process.stdout.write(readyMarkdown);
-    }
+    writeText(readyWrite, readyMarkdown);
+    consola.success(`[ok] wrote ${readyWrite}`);
   },
 });
 

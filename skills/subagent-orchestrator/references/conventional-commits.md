@@ -18,11 +18,11 @@
 ## 例
 
 ```text
-feat: 依存バッチ生成を追加
+feat: 着手可能タスク一覧の生成を追加
 
-- orchestration/tasks/T01/task.md などからDAGを生成
-- 並列バッチの算出結果を出力
-- bun run scripts/integration_order.ts で動作確認
+- orchestration/tasks/T01/task.md などから依存を検証
+- ready-now.md の出力を追加
+- bun run scripts/integration_order.ts --tasks-dir orchestration/tasks --ready-write orchestration/ready-now.md で動作確認
 ```
 
 ## 破壊的変更

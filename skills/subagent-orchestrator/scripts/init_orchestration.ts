@@ -81,7 +81,6 @@ const command = defineCommand({
 - \`tasks/<task-id>/task.md\`: タスク定義と調整メモ。更新者はメインエージェント。
 - \`tasks/<task-id>/subagent-output.md\`: 実施レポート、PR説明文、残課題。更新者はサブエージェント。
 - \`tasks/<task-id>/review.md\`: レビュー指摘、判定、対応状況。主にレビュー担当が記録。
-- \`dependency-dag.md\`: 依存グラフ、並列バッチ、統合順。\`integration_order.ts\` で生成。
 - \`ready-now.md\`: 今すぐ着手可能な \`todo\` タスク。\`integration_order.ts\` で生成。
 - \`integration-log.md\`: 統合記録、競合対応、検証結果。主に統合担当が記録。
 - \`handover.md\`: 完了範囲、残課題、次アクション。主にメインエージェントが記録。
@@ -115,26 +114,6 @@ const command = defineCommand({
 | Task ID | Task File | Summary | Depends On | Parallel Batch | DoD | Status |
 |---|---|---|---|---|---|---|
 | T01 | tasks/T01/task.md | initial-task | - | B1 |  | todo |
-`,
-        force,
-      );
-
-      writeIfNeeded(
-        join(orchDir, "dependency-dag.md"),
-        `# Dependency DAG
-
-## Mermaid
-
-\`\`\`mermaid
-graph TD
-  T01
-\`\`\`
-
-## Parallel Batches
-
-- B1: T01
-
-## Notes
 `,
         force,
       );

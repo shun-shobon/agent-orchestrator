@@ -45,9 +45,10 @@ branch: feat/add-api-spec
 ---
 ```
 
-5. 依存関係をDAGとして確定する。
-   - `bun run scripts/integration_order.ts --tasks-dir orchestration/tasks --write orchestration/dependency-dag.md`
-   - `done` タスクはDAG表示から除外し、今着手可能なタスクを `orchestration/ready-now.md` に出力する。
+5. 依存関係を検証し、今着手可能なタスクを確定する。
+   - `bun run scripts/integration_order.ts --tasks-dir orchestration/tasks --ready-write orchestration/ready-now.md`
+   - `done` タスクを前提として依存を評価し、今着手可能なタスクを `orchestration/ready-now.md` に出力する。
+   - 実装中に問題が生じた場合は再計画を行う。タスク追加、実装順変更、不要タスク削除を許容する。
 6. タスクごとに役割を分離する。
    - 実装担当とレビュー担当を分離する。
    - 割当は必要なら `orchestration/task-breakdown.md` に記録する。
@@ -75,7 +76,7 @@ branch: feat/add-api-spec
     - 実装担当と別の担当でレビューする。
     - 結果を `orchestration/tasks/<task-id>/review.md` に記録する。
 11. 依存順で統合する。
-    - DAG順でマージする。
+    - `task.md` の `deps` を満たす順でマージする。
     - 競合解消と検証結果を `orchestration/integration-log.md` に記録する。
 12. 引継ぎを完了する。
     - 完了範囲、残課題、次アクションを `orchestration/handover.md` に確定する。
@@ -88,7 +89,6 @@ branch: feat/add-api-spec
 - `orchestration/tasks/<task-id>/task.md`: メインエージェント管理のタスク定義（frontmatter、要件、受け入れ条件、調整メモ）。
 - `orchestration/tasks/<task-id>/subagent-output.md`: サブエージェント成果（実施レポート、PR説明文ドラフト、残課題）。
 - `orchestration/tasks/<task-id>/review.md`: レビュー指摘、判定、対応状況。
-- `orchestration/dependency-dag.md`: 依存グラフ、並列バッチ、統合順。
 - `orchestration/ready-now.md`: 今すぐ着手可能な `todo` タスク一覧。
 - `orchestration/integration-log.md`: 統合記録、競合対応、検証結果。
 - `orchestration/handover.md`: 最終引継ぎ情報。
@@ -99,7 +99,7 @@ branch: feat/add-api-spec
 
 ```text
 あなたはサブエージェントです。TASK_ID=<id> だけを担当してください。
-参照: orchestration/charter.md, orchestration/task-breakdown.md, orchestration/tasks/<id>/task.md, orchestration/tasks/<id>/subagent-output.md, orchestration/dependency-dag.md
+参照: orchestration/charter.md, orchestration/task-breakdown.md, orchestration/tasks/<id>/task.md, orchestration/tasks/<id>/subagent-output.md, orchestration/ready-now.md
 作業場所: <assigned worktree path> のみ
 入力:
 - task_id: <id>
@@ -144,7 +144,7 @@ branch: feat/add-api-spec
 ## 追加参照の読み分け
 
 - タスク分解基準が必要な場合: `references/task-decomposition.md`
-- DAG設計と並列化ルールが必要な場合: `references/dependency-model.md`
+- 依存関係設計と並列化ルールが必要な場合: `references/dependency-model.md`
 - worktree運用手順が必要な場合: `references/worktree-playbook.md`
 - サブエージェント契約が必要な場合: `references/subagent-contract.md`
 - 役割分離の責務整理が必要な場合: `references/role-separation.md`

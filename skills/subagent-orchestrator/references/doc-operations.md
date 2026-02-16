@@ -8,8 +8,9 @@
 
 - スコープや制約が変わった時に `orchestration/charter.md` を更新する。
 - タスク、担当、依存が変わった時に `orchestration/task-breakdown.md` を更新する。
+- 実装中に問題が生じた場合、`orchestration/task-breakdown.md` と `orchestration/tasks/<task-id>/task.md` を再計画する。タスク追加、実装順変更、不要タスク削除を許容する。
 - タスクの要件・受け入れ条件・調整事項が変わった時に `orchestration/tasks/<task-id>/task.md` を更新する。
-- `orchestration/tasks/<task-id>/task.md` の frontmatter を変更した後に `bun run scripts/integration_order.ts --tasks-dir orchestration/tasks --write orchestration/dependency-dag.md` を再実行し、`orchestration/dependency-dag.md` と `orchestration/ready-now.md` を更新する。
+- `orchestration/tasks/<task-id>/task.md` の frontmatter を変更した後に `bun run scripts/integration_order.ts --tasks-dir orchestration/tasks --ready-write orchestration/ready-now.md` を再実行し、`orchestration/ready-now.md` を更新する。
 - サブエージェントの実施内容・PR説明・残課題が変わった時に `orchestration/tasks/<task-id>/subagent-output.md` を更新する。
 - サブエージェント待機開始時刻を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
 - 1時間超過で介入または強制終了した場合、判断理由と結果を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
