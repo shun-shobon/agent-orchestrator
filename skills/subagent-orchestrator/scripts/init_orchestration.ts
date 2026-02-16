@@ -198,8 +198,23 @@ branch: feat/initial-task
         join(orchDir, "tasks", "T01", "review.md"),
         `# Task Review
 
-| Timestamp (UTC) | Reviewer | Severity | Verdict | Findings | Files | Action Required |
-|---|---|---|---|---|---|---|
+## Verdict
+
+- status: pending
+- reviewer:
+- reviewed_at_utc:
+
+## Findings
+
+- severity:
+  file:
+  detail:
+
+## Required Actions
+
+- action:
+  owner:
+  due:
 `,
         force,
       );
