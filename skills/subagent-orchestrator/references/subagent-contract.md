@@ -4,11 +4,12 @@
 
 - `task_id`
 - `worktree_path`
-- `role`（実装担当 / レビュー担当）
 
 補足:
 
-- `goal`、`in_scope`、`out_of_scope`、`dependencies`、`definition_of_done`、`required_docs_to_update` は `orchestration/tasks/<task-id>/task.md` や `orchestration/task-breakdown.md` から取得する。
+- 役割（実装担当 / レビュー担当）は委任プロンプト本文から判断する。
+- `task.md` の `Goal`、`Scope`、`Non-scope`、`Acceptance Criteria` と frontmatter の `deps` を作業基準として参照する。
+- `orchestration/task-breakdown.md` のDoD・依存・状態を最新基準として参照する。
 
 ## 出力必須項目
 

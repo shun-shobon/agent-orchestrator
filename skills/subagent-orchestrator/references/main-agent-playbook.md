@@ -62,7 +62,7 @@
 ```text
 あなたはサブエージェントです。TASK_ID=<id> の実装担当です。
 `subagent-orchestrator` スキルを必ず利用し、実装担当の手順に従ってください。
-`orchestration/tasks/<id>/` 配下（特に `task.md` と `subagent-output.md`）を確認して作業してください。
+`orchestration/tasks/<id>/` 配下（特に `task.md` と `subagent-output.md`）および `orchestration/task-breakdown.md` を確認して作業してください。
 作業場所:
 - worktree_path: <assigned worktree path>
 ```
@@ -72,7 +72,7 @@
 ```text
 あなたはサブエージェントです。TASK_ID=<id> のレビュー担当です。
 `subagent-orchestrator` スキルを必ず利用し、レビュー担当の手順に従ってください。
-`orchestration/tasks/<id>/` 配下（特に `task.md`、`subagent-output.md`、`review.md`）を確認して作業してください。
+`orchestration/tasks/<id>/` 配下（特に `task.md`、`subagent-output.md`、`review.md`）および `orchestration/task-breakdown.md` を確認して作業してください。
 作業場所:
 - worktree_path: <assigned worktree path>
 ```

@@ -15,7 +15,7 @@ description: 複数サブエージェントで大規模開発をオーケスト�
 - 次を1つでも満たす場合、サブエージェントとして扱う。
   - プロンプトに「あなたはサブエージェントです」が含まれる。
   - `TASK_ID` が明示され、単一タスクの実装またはレビューを指示される。
-  - `task_id` / `worktree_path` / `required_docs_to_update` などのサブエージェント入力が渡される。
+  - `task_id` / `worktree_path` などのサブエージェント入力が渡される。
 - 上記に該当しない場合、メインエージェントとして扱う。
 - 判定後、次の playbook を必ず読む。
   - メインエージェント: `references/main-agent-playbook.md`
@@ -26,7 +26,7 @@ description: 複数サブエージェントで大規模開発をオーケスト�
 
 - `orchestration/README.md`: orchestration配下ファイルの役割と更新責務。
 - `orchestration/charter.md`: 目的、成功条件、制約、意思決定履歴。
-- `orchestration/task-breakdown.md`: タスク一覧、依存、担当、DoD、状態。
+- `orchestration/task-breakdown.md`: タスク一覧、依存、DoD、状態。
 - `orchestration/tasks/<task-id>/task.md`: メインエージェント管理のタスク定義（frontmatter、要件、受け入れ条件、調整メモ）。
 - `orchestration/tasks/<task-id>/subagent-output.md`: サブエージェント成果（実施レポート、PR説明文ドラフト、残課題）。
 - `orchestration/tasks/<task-id>/review.md`: レビュー指摘、判定、対応状況。

@@ -3,7 +3,7 @@
 ## 命名規約
 
 - ルートディレクトリ: `.worktrees/`
-- パス形式: `.worktrees/<task_id>`
+- パス形式: `.worktrees/<task-id>`
 - ブランチ形式: `<scope>/<summary-kebab>`
 - `scope`: `feat|fix|docs|style|refactor|test|chore|build|ci|perf|revert`
   - コミットメッセージ規約の `type` と同じ語彙を使う。
