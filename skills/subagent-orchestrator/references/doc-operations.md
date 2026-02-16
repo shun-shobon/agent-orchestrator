@@ -13,7 +13,7 @@
 - サブエージェントの実施内容・PR説明・残課題が変わった時に `orchestration/tasks/<task-id>/subagent-output.md` を更新する。
 - サブエージェント待機開始時刻を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
 - 1時間超過で介入または強制終了した場合、判断理由と結果を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
-- レビューごとに `orchestration/review-log.md` を更新する。
+- レビューごとに `orchestration/tasks/<task-id>/review.md` を更新する。
 - 統合作業ごとに `orchestration/integration-log.md` を更新する。
 - 完了時または担当移管時に `orchestration/handover.md` を更新する。
 

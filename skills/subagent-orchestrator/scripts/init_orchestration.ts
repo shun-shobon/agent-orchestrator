@@ -80,9 +80,9 @@ const command = defineCommand({
 - \`task-breakdown.md\`: タスク一覧、依存、担当、DoD、状態。更新者はメインエージェント。
 - \`tasks/<task-id>/task.md\`: タスク定義と調整メモ。更新者はメインエージェント。
 - \`tasks/<task-id>/subagent-output.md\`: 実施レポート、PR説明文、残課題。更新者はサブエージェント。
+- \`tasks/<task-id>/review.md\`: レビュー指摘、判定、対応状況。主にレビュー担当が記録。
 - \`dependency-dag.md\`: 依存グラフ、並列バッチ、統合順。\`integration_order.ts\` で生成。
 - \`ready-now.md\`: 今すぐ着手可能な \`todo\` タスク。\`integration_order.ts\` で生成。
-- \`review-log.md\`: レビュー指摘、判定、対応状況。主にレビュー担当が記録。
 - \`integration-log.md\`: 統合記録、競合対応、検証結果。主に統合担当が記録。
 - \`handover.md\`: 完了範囲、残課題、次アクション。主にメインエージェントが記録。
 `,
@@ -153,16 +153,6 @@ status=todo and all dependencies are done
       );
 
       writeIfNeeded(
-        join(orchDir, "review-log.md"),
-        `# Review Log
-
-| Timestamp (UTC) | Task ID | Reviewer | Severity | Verdict | Findings | Files | Action Required |
-|---|---|---|---|---|---|---|---|
-`,
-        force,
-      );
-
-      writeIfNeeded(
         join(orchDir, "integration-log.md"),
         `# Integration Log
 
@@ -221,6 +211,16 @@ branch: feat/initial-task
 ## PR Description Draft
 
 ## Remaining Issues
+`,
+        force,
+      );
+
+      writeIfNeeded(
+        join(orchDir, "tasks", "T01", "review.md"),
+        `# Task Review
+
+| Timestamp (UTC) | Reviewer | Severity | Verdict | Findings | Files | Action Required |
+|---|---|---|---|---|---|---|
 `,
         force,
       );

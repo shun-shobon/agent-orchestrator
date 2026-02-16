@@ -17,7 +17,7 @@
 - 割り当て範囲に限定したコードまたは文書変更。
 - `definition_of_done` に紐づくテスト証跡。
 - `orchestration/tasks/<task-id>/subagent-output.md` への実施内容追記（実施レポート / PR説明文 / 残課題）。
-- レビュー担当の場合は `orchestration/review-log.md` への記録。
+- レビュー担当の場合は `orchestration/tasks/<task-id>/review.md` への記録。
 
 ## エスカレーション条件
 

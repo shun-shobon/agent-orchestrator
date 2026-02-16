@@ -73,7 +73,7 @@ branch: feat/add-api-spec
    - 必要に応じて `bun run scripts/cc_commit_check.ts` で検証する。
 10. 独立レビューを実施する。
     - 実装担当と別の担当でレビューする。
-    - 結果を `orchestration/review-log.md` に記録する。
+    - 結果を `orchestration/tasks/<task-id>/review.md` に記録する。
 11. 依存順で統合する。
     - DAG順でマージする。
     - 競合解消と検証結果を `orchestration/integration-log.md` に記録する。
@@ -87,9 +87,9 @@ branch: feat/add-api-spec
 - `orchestration/task-breakdown.md`: タスク一覧、依存、担当、DoD、状態。
 - `orchestration/tasks/<task-id>/task.md`: メインエージェント管理のタスク定義（frontmatter、要件、受け入れ条件、調整メモ）。
 - `orchestration/tasks/<task-id>/subagent-output.md`: サブエージェント成果（実施レポート、PR説明文ドラフト、残課題）。
+- `orchestration/tasks/<task-id>/review.md`: レビュー指摘、判定、対応状況。
 - `orchestration/dependency-dag.md`: 依存グラフ、並列バッチ、統合順。
 - `orchestration/ready-now.md`: 今すぐ着手可能な `todo` タスク一覧。
-- `orchestration/review-log.md`: レビュー指摘、判定、対応状況。
 - `orchestration/integration-log.md`: 統合記録、競合対応、検証結果。
 - `orchestration/handover.md`: 最終引継ぎ情報。
 
@@ -125,7 +125,7 @@ branch: feat/add-api-spec
 
 ```text
 あなたはサブエージェントです。TASK_ID=<id> のレビューのみ担当してください。
-参照: orchestration/charter.md, orchestration/task-breakdown.md, orchestration/tasks/<id>/task.md, orchestration/tasks/<id>/subagent-output.md, orchestration/review-log.md
+参照: orchestration/charter.md, orchestration/task-breakdown.md, orchestration/tasks/<id>/task.md, orchestration/tasks/<id>/subagent-output.md, orchestration/tasks/<id>/review.md
 実装担当と同じブランチ/worktreeを確認してください。
 入力:
 - task_id: <id>
@@ -134,11 +134,11 @@ branch: feat/add-api-spec
 - out_of_scope: <レビュー対象外>
 - dependencies: <依存タスクID。なければ []>
 - worktree_path: <assigned worktree path>
-- expected_outputs: review-log更新と判定
+- expected_outputs: orchestration/tasks/<id>/review.md 更新と判定
 - definition_of_done: <判定と指摘が記録されている状態>
-- required_docs_to_update: orchestration/review-log.md, orchestration/tasks/<id>/subagent-output.md
+- required_docs_to_update: orchestration/tasks/<id>/review.md, orchestration/tasks/<id>/subagent-output.md
 挙動の回帰、テスト不足、契約不一致を重点的に確認してください。
-指摘と判定を orchestration/review-log.md に記録してください。
+指摘と判定を orchestration/tasks/<id>/review.md に記録してください。
 ```
 
 ## 追加参照の読み分け
