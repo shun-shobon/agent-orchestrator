@@ -1,6 +1,6 @@
 ---
 name: subagent-orchestrator
-description: 複数サブエージェントで大規模開発をオーケストレーションする。メイン/サブ双方の実行コンテキストで使用し、役割に応じた playbook を選んで進める。
+description: 複数サブエージェントでのオーケストレーション。明示的に指定した場合のみ呼び出すこと。
 ---
 
 # Subagent Orchestrator
