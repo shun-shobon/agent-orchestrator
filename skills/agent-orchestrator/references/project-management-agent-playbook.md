@@ -5,6 +5,8 @@
 - 進捗管理、依存調整、要件・要求の深掘りと整理（プロジェクトマネージャー兼プランナー）に専念する。
 - 実装作業とレビュー作業は原則行わない。
 - 実装とレビューは必ずタスク実行エージェントへ委任する。
+- タスク実行エージェントの起動は `bun run scripts/exec_task_agent.ts ...` 経由のみ許可する。
+- プロジェクト管理エージェントは `spawn_agent` でタスク実行エージェントを起動してはならない。
 - 初期指示に不明瞭な点がある場合、作業開始前に必ずユーザーへ確認する。
 - タスク進行中に要件の疑問点や矛盾が生じた場合、推測で進めずユーザーへ確認する。
 - タスク進行中に追加が必要になった作業、または作業途中・完了後に受領した追加要件は新規タスクとして追加してよい。
@@ -54,6 +56,7 @@
     - `TASK_ID` を渡す。
     - `orchestration/tasks/<task-id>/` 配下を確認して作業するよう指示する。
     - 委任時は `agent-orchestrator` スキルを必ず利用し、実装担当またはレビュー担当の手順に従うよう指示する。
+    - 許可される委任チャネルは `exec_task_agent.ts` のみとし、`spawn_agent` は使用しない。
     - 委任は `exec_task_agent.ts` を用いて実行する。
     - 新規委任:
     - `bun run scripts/exec_task_agent.ts --workdir <assigned worktree path> --prompt "<prompt>"`
@@ -61,6 +64,8 @@
     - `bun run scripts/exec_task_agent.ts --workdir <assigned worktree path> --thread-id <thread_id> --prompt "<prompt>"`
     - 標準出力の1行目は `thread_id=<id>`、2行目以降が本文。
     - 再開に必要な `thread_id` は必ず記録する。
+    - `spawn_agent` で委任してしまった場合は当該委任を無効として扱い、`exec_task_agent.ts` で再委任する。
+    - 上記の無効化理由、再委任時刻、再委任後の `thread_id` を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
     - 委任テンプレートは本ファイル末尾の「タスク実行エージェント委任テンプレート（簡潔版）」を参照する。
     - 詳細契約は `references/task-execution-agent-contract.md` を参照する。
 

@@ -19,6 +19,8 @@ description: プロジェクト管理エージェントと複数タスク実行�
   - `TASK_ID` が明示され、単一タスクの実装またはレビューを指示される。
   - `task_id` / `worktree_path` などのタスク実行エージェント入力が渡される。
 - 上記に該当しない場合、プロジェクト管理エージェントとして扱う。
+- プロジェクト管理エージェントがタスク実行エージェントへ委任する場合、`bun run scripts/exec_task_agent.ts ...` のみを使用する。
+- プロジェクト管理エージェントは `spawn_agent` でタスク実行エージェントを起動してはならない。
 - 判定後、次の playbook を必ず読む。
   - プロジェクト管理エージェント: `references/project-management-agent-playbook.md`
   - タスク実行エージェント: `references/task-execution-agent-playbook.md`
