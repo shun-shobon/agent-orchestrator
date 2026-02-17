@@ -68,7 +68,6 @@
     - 上記の無効化理由、再委任時刻、再委任後の `thread_id` を `orchestration/tasks/<task-id>/task.md` の `Coordinator Notes` に記録する。
     - 委任テンプレートは本ファイル末尾の「タスク実行エージェント委任テンプレート（簡潔版）」を参照する。
     - 詳細契約は `references/task-execution-agent-contract.md` を参照する。
-
 11. コミット規約を強制する。
     - Conventional Commits のみ許可する。
     - `scope` は原則使わず、`<type>: <summary>` を使う。
@@ -82,7 +81,9 @@
 14. 引継ぎを完了する。
     - 完了範囲、残課題、次アクションを `orchestration/handover.md` に確定する。
 
-## タスク実行エージェント委任テンプレート（簡潔版）
+## タスク実行エージェント委任テンプレート
+
+注意点として、コマンドラインで与える場合、`$agent-orchestrator` がシェル変数として解釈されてしまう可能性があるので、エスケープを必ず行うこと。
 
 実装担当:
 
