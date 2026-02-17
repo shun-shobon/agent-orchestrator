@@ -24,20 +24,20 @@
 3. 実装前に要件を深掘りする。
    - 不明点・曖昧点はユーザーへ確認して解消する。
    - 要件・要求を整理し、優先順位と受け入れ条件を明確化する。
-   - 目標を小さく検証可能なタスクへ分解し、`orchestration/task-breakdown.md` に記録する。
 4. タスクを定義する。
-   - `orchestration/tasks/<task-id>/` を作成する。
-   - `task.md` と `subagent-output.md` を分離する。
-   - `task.md` の frontmatter に `id`, `summary`, `status`, `deps`, `branch` を記述する。
+   - タスク情報の source of truth は `orchestration/tasks/` 配下の各 `task.md` とする。
+   - 新規タスクは `bun run scripts/create_task.ts --tasks-dir orchestration/tasks --id <task-id> --summary "<summary>" --branch <branch> [--deps <dep1,dep2>] [--status <status>]` で作成する。
+   - 必要に応じて `task.md` 本文（`Goal` / `Scope` / `Non-scope` / `Acceptance Criteria` / `Coordinator Notes`）を追記・更新する。
 5. 着手可能タスクを確定する。
-   - `bun run scripts/integration_order.ts --tasks-dir orchestration/tasks --ready-write orchestration/ready-now.md`
-   - `done` タスクを前提として依存を評価し、今着手可能な `todo` を `orchestration/ready-now.md` に出力する。
+   - `bun run scripts/integration_order.ts --tasks-dir orchestration/tasks --index-write orchestration/task-index.md`
+   - `done` タスクを前提として依存を評価し、今着手可能な `todo` を `orchestration/task-index.md` に出力する。
    - `dependency-dag` の存在は前提にせず、`tasks/` 配下の `task.md` から依存を評価する。
 6. 実装中の再計画を許容する。
    - 追加タスク、実装順の変更、不要タスクの削除を許容する。
    - 実装中に追加が必要になった作業は新規タスクとして起票する。
    - 作業途中または完了後にユーザーから追加要件を受けた場合も新規タスクとして起票する。
-   - 変更理由を `orchestration/task-breakdown.md` または各 `task.md` に記録する。
+   - 再計画の判断理由と変更内容は対象 `task.md` の `Coordinator Notes` に記録する。
+   - 再計画後は `integration_order.ts` を再実行して `orchestration/task-index.md` を更新する。
 7. 役割を分離する。
    - タスクごとに実装担当とレビュー担当を分離する。
    - 契約は `references/subagent-contract.md` に従う。
@@ -54,6 +54,8 @@
 - `TASK_ID` と `worktree_path` を渡す。
 - `orchestration/tasks/<task-id>/` 配下を確認して作業するよう指示する。
 - 委任時は `subagent-orchestrator` スキルを必ず利用し、実装担当またはレビュー担当の手順に従うよう指示する。
+- 委任テンプレートは本ファイル末尾の「サブエージェント委任テンプレート（簡潔版）」を参照する。
+- 詳細契約は `references/subagent-contract.md` を参照する。
 
 11. コミット規約を強制する。
     - Conventional Commits のみ許可する。
@@ -75,7 +77,7 @@
 ```text
 あなたはサブエージェントです。TASK_ID=<id> の実装担当です。
 $subagent-orchestrator スキルを必ず利用し、実装担当の手順に従ってください。
-`orchestration/tasks/<id>/` 配下（特に `task.md` と `subagent-output.md`）および `orchestration/task-breakdown.md` を確認して作業してください。
+`orchestration/tasks/<id>/` 配下（特に `task.md` と `subagent-output.md`）を確認し、必要なら `orchestration/task-index.md` で依存状態を確認して作業してください。
 作業場所:
 - worktree_path: <assigned worktree path>
 ```
@@ -85,7 +87,7 @@ $subagent-orchestrator スキルを必ず利用し、実装担当の手順に従
 ```text
 あなたはサブエージェントです。TASK_ID=<id> のレビュー担当です。
 $subagent-orchestrator スキルを必ず利用し、レビュー担当の手順に従ってください。
-`orchestration/tasks/<id>/` 配下（特に `task.md`、`subagent-output.md`、`review.md`）および `orchestration/task-breakdown.md` を確認して作業してください。
+`orchestration/tasks/<id>/` 配下（特に `task.md`、`subagent-output.md`、`review.md`）を確認し、必要なら `orchestration/task-index.md` で依存状態を確認して作業してください。
 作業場所:
 - worktree_path: <assigned worktree path>
 ```

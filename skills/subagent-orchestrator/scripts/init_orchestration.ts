@@ -77,11 +77,10 @@ const command = defineCommand({
         `# Orchestration Files
 
 - \`charter.md\`: 目的、成功条件、制約、意思決定履歴。更新者はメインエージェント。
-- \`task-breakdown.md\`: タスク一覧、依存、担当、DoD、状態。更新者はメインエージェント。
-- \`tasks/<task-id>/task.md\`: タスク定義と調整メモ。更新者はメインエージェント。
+- \`tasks/<task-id>/task.md\`: タスク定義。タスク情報のSoT。更新者はメインエージェント。
 - \`tasks/<task-id>/subagent-output.md\`: 実施レポート、PR説明文、残課題。更新者はサブエージェント。
 - \`tasks/<task-id>/review.md\`: レビュー指摘、判定、対応状況。主にレビュー担当が記録。
-- \`ready-now.md\`: 今すぐ着手可能な \`todo\` タスク。\`integration_order.ts\` で生成。
+- \`task-index.md\`: Ready Tasks と All Tasks の一覧。\`integration_order.ts\` で生成。
 - \`integration-log.md\`: 統合記録、競合対応、検証結果。主に統合担当が記録。
 - \`handover.md\`: 完了範囲、残課題、次アクション。主にメインエージェントが記録。
 `,
@@ -108,25 +107,22 @@ const command = defineCommand({
       );
 
       writeIfNeeded(
-        join(orchDir, "task-breakdown.md"),
-        `# Task Breakdown
+        join(orchDir, "task-index.md"),
+        `# Task Index
 
-| Task ID | Task File | Summary | Depends On | Parallel Batch | DoD | Status |
-|---|---|---|---|---|---|---|
-| T01 | tasks/T01/task.md | initial-task | - | B1 |  | todo |
-`,
-        force,
-      );
-
-      writeIfNeeded(
-        join(orchDir, "ready-now.md"),
-        `# Ready Now Tasks
+## Ready Tasks
 
 status=todo and all dependencies are done
 
 | Task ID | Summary | Depends On |
 |---|---|---|
 | T01 | initial-task | - |
+
+## All Tasks
+
+| Task ID | Summary | Status | Depends On | Branch |
+|---|---|---|---|---|
+| T01 | initial-task | todo | - | feat/initial-task |
 `,
         force,
       );

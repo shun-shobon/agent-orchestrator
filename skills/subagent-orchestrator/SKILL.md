@@ -9,6 +9,7 @@ description: 複数サブエージェントでのオーケストレーション�
 
 曖昧な構想から実装完了までを、再現可能なオーケストレーション手順で進める。
 判断・進捗・引継ぎ情報を `orchestration/` 配下に一元化する。
+タスク情報は `orchestration/tasks/<task-id>/task.md` で管理する。
 
 ## 役割判定と参照先
 
@@ -26,11 +27,11 @@ description: 複数サブエージェントでのオーケストレーション�
 
 - `orchestration/README.md`: orchestration配下ファイルの役割と更新責務。
 - `orchestration/charter.md`: 目的、成功条件、制約、意思決定履歴。
-- `orchestration/task-breakdown.md`: タスク一覧、依存、DoD、状態。
+- `orchestration/tasks/`: タスク一覧。
 - `orchestration/tasks/<task-id>/task.md`: メインエージェント管理のタスク定義（frontmatter、要件、受け入れ条件、調整メモ）。
 - `orchestration/tasks/<task-id>/subagent-output.md`: サブエージェント成果（実施レポート、PR説明文ドラフト、残課題）。
 - `orchestration/tasks/<task-id>/review.md`: レビュー指摘、判定、対応状況。
-- `orchestration/ready-now.md`: 今すぐ着手可能な `todo` タスク一覧。
+- `orchestration/task-index.md`: `integration_order.ts` が生成するタスク一覧と着手可能タスク。
 - `orchestration/integration-log.md`: 統合記録、競合対応、検証結果。
 - `orchestration/handover.md`: 最終引継ぎ情報。
 

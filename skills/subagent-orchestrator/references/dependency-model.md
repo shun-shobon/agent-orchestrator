@@ -7,6 +7,7 @@
 ## 入力形式
 
 `orchestration/tasks/<task-id>/task.md` の frontmatter を使う。
+`orchestration/tasks/` を依存情報の source of truth とする。
 
 ```markdown
 ---
@@ -41,11 +42,11 @@ branch: feat/add-api-spec
 - 同一ホットファイルを編集するタスクは、必要性が低ければ並列化しない。
 - `done` タスクは依存グラフの対象から除外し、依存は「既に満たされた前提」として扱う。
 
-## Ready Now 判定
+## Task Index 判定
 
 - `status=todo` であること。
 - 依存先のタスクがすべて `done` であること。
-- 結果は `orchestration/ready-now.md` に出力する。
+- 結果は `orchestration/task-index.md` に出力する。
 
 ## 優先順位ヒューリスティクス
 

@@ -13,6 +13,7 @@ type Task = {
   deps: string[];
   status: string;
   summary: string;
+  branch: string;
 };
 
 function fail(message: string): never {
@@ -185,8 +186,9 @@ function loadTasks(tasksDir: string): Map<string, Task> {
 
     const summary = readFrontmatterString({ frontmatter, key: "summary", path });
     const deps = normalizeDeps(frontmatter.deps, path, taskId);
+    const branch = readFrontmatterString({ frontmatter, key: "branch", path });
 
-    tasks.set(taskId, { taskId, deps, status, summary });
+    tasks.set(taskId, { taskId, deps, status, summary, branch });
   }
 
   const unknownDeps: string[] = [];
@@ -306,9 +308,16 @@ function findReadyNow(tasks: Map<string, Task>): string[] {
   return ready;
 }
 
-function renderReadyMarkdown(tasks: Map<string, Task>, readyNow: string[]): string {
+function renderTaskIndexMarkdown(tasks: Map<string, Task>, readyNow: string[]): string {
   const lines: string[] = [];
-  lines.push("# Ready Now Tasks", "", "status=todo and all dependencies are done", "");
+  lines.push(
+    "# Task Index",
+    "",
+    "## Ready Tasks",
+    "",
+    "status=todo and all dependencies are done",
+    "",
+  );
   lines.push("| Task ID | Summary | Depends On |", "|---|---|---|");
 
   if (readyNow.length === 0) {
@@ -320,6 +329,18 @@ function renderReadyMarkdown(tasks: Map<string, Task>, readyNow: string[]): stri
       const summary = task.summary || "-";
       lines.push(`| ${taskId} | ${summary} | ${dependsOn} |`);
     }
+  }
+
+  lines.push("", "## All Tasks", "");
+  lines.push("| Task ID | Summary | Status | Depends On | Branch |", "|---|---|---|---|---|");
+
+  const taskIds = Array.from(tasks.keys()).sort((a, b) => a.localeCompare(b));
+  for (const taskId of taskIds) {
+    const task = tasks.get(taskId)!;
+    const dependsOn = task.deps.length > 0 ? task.deps.join(", ") : "-";
+    const summary = task.summary || "-";
+    const branch = task.branch || "-";
+    lines.push(`| ${taskId} | ${summary} | ${task.status} | ${dependsOn} | ${branch} |`);
   }
 
   lines.push("");
@@ -334,7 +355,7 @@ function writeText(path: string, content: string): void {
 const command = defineCommand({
   meta: {
     name: "integration_order",
-    description: "Generate ready-now.md from tasks/<task-id>/task.md frontmatter.",
+    description: "Generate task-index.md from tasks/<task-id>/task.md frontmatter.",
   },
   args: {
     "tasks-dir": {
@@ -342,10 +363,10 @@ const command = defineCommand({
       required: true,
       description: "Directory containing task directories (<task-id>/task.md)",
     },
-    "ready-write": {
+    "index-write": {
       type: "string",
       required: true,
-      description: "Output path for ready-now markdown",
+      description: "Output path for task-index markdown",
     },
   },
   run: ({ args }) => {
@@ -354,7 +375,7 @@ const command = defineCommand({
     }
 
     const tasksDir = readStringOption(args["tasks-dir"], "--tasks-dir", true);
-    const readyWrite = readStringOption(args["ready-write"], "--ready-write", true);
+    const indexWrite = readStringOption(args["index-write"], "--index-write", true);
 
     let tasks: Map<string, Task>;
 
@@ -370,10 +391,10 @@ const command = defineCommand({
     }
 
     const readyNow = findReadyNow(tasks);
-    const readyMarkdown = renderReadyMarkdown(tasks, readyNow);
+    const indexMarkdown = renderTaskIndexMarkdown(tasks, readyNow);
 
-    writeText(readyWrite, readyMarkdown);
-    consola.success(`[ok] wrote ${readyWrite}`);
+    writeText(indexWrite, indexMarkdown);
+    consola.success(`[ok] wrote ${indexWrite}`);
   },
 });
 

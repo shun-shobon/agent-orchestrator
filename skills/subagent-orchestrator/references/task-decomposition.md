@@ -17,6 +17,7 @@
 ## タスクファイル構成
 
 `orchestration/tasks/<task-id>/` を使う。
+初期雛形は `bun run scripts/create_task.ts --tasks-dir orchestration/tasks --id <task-id> --summary "<summary>" --branch <branch> [--deps <dep1,dep2>] [--status <status>]` で作成する。
 
 ### Frontmatter必須項目
 

@@ -9,7 +9,6 @@
 
 - 役割（実装担当 / レビュー担当）は委任プロンプト本文から判断する。
 - `task.md` の `Goal`、`Scope`、`Non-scope`、`Acceptance Criteria` と frontmatter の `deps` を作業基準として参照する。
-- `orchestration/task-breakdown.md` のDoD・依存・状態を最新基準として参照する。
 
 ## 出力必須項目
 
