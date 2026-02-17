@@ -1,6 +1,6 @@
 ---
 name: agent-orchestrator
-description: プロジェクト管理エージェントと複数タスク実行エージェントでのオーケストレーション。明示的に指定した場合のみ呼び出すこと。
+description: プロジェクト管理エージェントと複数のタスク実行エージェントでのオーケストレーション。
 ---
 
 # Agent Orchestrator
